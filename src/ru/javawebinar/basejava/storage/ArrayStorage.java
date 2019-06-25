@@ -8,8 +8,8 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    static int size = 0;
+    private Resume[] storage = new Resume[10_000];
+    private int size = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -24,10 +24,9 @@ public class ArrayStorage {
         int index = getIndex(resume.getUuid());
         if (index > -1) {
             System.out.println("Resume " + resume.getUuid() + " is already in the storage");
-        } else if (index == -1) {
+        } else {
             storage[size] = resume;
             size++;
-            System.out.println("Resume " + resume.getUuid() + " added to the storage");
         }
 
     }
@@ -36,7 +35,6 @@ public class ArrayStorage {
         int index = getIndex(resume.getUuid());
         if (index > -1) {
             storage[index] = resume;
-            System.out.println("Resume " + resume.getUuid() + " is was updated in the storage");
         } else {
             System.out.println("Resume " + resume.getUuid() + " is not in the storage");
         }
@@ -46,7 +44,6 @@ public class ArrayStorage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index > -1) {
-            System.out.println("Resume " + uuid + " is in the storage");
             return storage[index];
         } else {
             System.out.println("Resume " + uuid + " is not in the storage");
@@ -58,13 +55,9 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index > -1) {
-            storage[index] = null;
-            for (int j = index; j < size; j++) {
-                storage[j] = storage[j + 1];
-            }
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
-            System.out.println("Resume " + uuid + " was deleted from the storage");
         } else {
             System.out.println("Resume " + uuid + " is not in the storage");
         }
@@ -75,13 +68,11 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        if (storage.length == 0) return null;
+        if (storage.length == 0) {
+            return null;
+        }
 
-        Resume[] resumes = new Resume[size];
-        resumes = Arrays.copyOfRange(storage, 0, size);
-
-        return resumes;
-
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
     public int size() {
