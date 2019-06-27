@@ -1,4 +1,4 @@
-/**
+package ru.javawebinar.basejava; /**
  * Test for your ru.javawebinar.basejava.storage.ArrayStorage implementation
  */
 
