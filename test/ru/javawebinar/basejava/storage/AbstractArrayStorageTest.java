@@ -14,9 +14,12 @@ public class AbstractArrayStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
+    private static final String UUID_4 = "dummy";
     private static final Resume RESUME1 = new Resume(UUID_1);
     private static final Resume RESUME2 = new Resume(UUID_2);
     private static final Resume RESUME3 = new Resume(UUID_3);
+    private static final Resume RESUME4 = new Resume(UUID_4);
+
 
     protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -50,7 +53,7 @@ public class AbstractArrayStorageTest {
     public void updateExist() throws Exception {
         Resume newResume = new Resume("uuid1");
         storage.update(newResume);
-        Assert.assertTrue(newResume == storage.get("uuid1"));
+        Assert.assertSame(newResume, storage.get("uuid1"));
     }
 
     @Test
@@ -60,7 +63,8 @@ public class AbstractArrayStorageTest {
         newResumes[0] = RESUME1;
         newResumes[1] = RESUME2;
         newResumes[2] = RESUME3;
-        Assert.assertArrayEquals(resumes, newResumes);
+        Assert.assertArrayEquals(newResumes, resumes);
+        Assert.assertEquals(3, resumes.length);
     }
 
     @Test(expected = ExistStorageException.class)
@@ -84,7 +88,7 @@ public class AbstractArrayStorageTest {
                 storage.save(new Resume("uu" + i));
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Storage filling failed");
         }
         storage.save(new Resume("overflow Resume"));
     }
@@ -108,7 +112,6 @@ public class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() throws Exception {
-        Resume RESUME4 = new Resume("dummy");
         storage.get(RESUME4.getUuid());
     }
 
