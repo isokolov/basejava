@@ -15,7 +15,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertElement(Resume r, int index) {
+    protected void insertElement(Resume r, Integer index) {
 //      http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
         int insertIdx = -index - 1;
         System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
@@ -23,8 +23,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
-        Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
+    protected Integer getSearchKey(String searchKey) {
+        Resume resume = new Resume(searchKey);
+        return Arrays.binarySearch(storage, 0, size, resume);
     }
+
 }

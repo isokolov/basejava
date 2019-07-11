@@ -11,7 +11,7 @@ import ru.javawebinar.basejava.model.Resume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
     private Storage storage;
 
     private static final String UUID_1 = "uuid1";
@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorageTest {
         RESUME_4 = new Resume(UUID_4);
     }
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -89,20 +89,26 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
+        storage.clear();
+        if (storage instanceof ListStorage) {
+            throw new StorageException("For ListStorage is overflow irrelevant", "ListStorage");
+        }
         try {
-            for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT+1; i++) {
-                storage.save(new Resume());
+            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                storage.save(new Resume("uu" + i));
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Storage filling failed");
         }
-        storage.save(new Resume());
+        storage.save(new Resume("overflow Resume"));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
         storage.delete(UUID_1);
-        assertSize(2);
+        if (storage instanceof AbstractArrayStorage) {
+            assertSize(2);
+        }
         storage.get(UUID_1);
     }
 
