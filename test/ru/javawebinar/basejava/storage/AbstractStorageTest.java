@@ -90,9 +90,9 @@ public abstract class AbstractStorageTest {
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         storage.clear();
-        if (storage instanceof ListStorage) {
+        /*if (storage instanceof ListStorage) {
             throw new StorageException("For ListStorage is overflow irrelevant", "ListStorage");
-        }
+        }*/
         try {
             for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
                 storage.save(new Resume("uu" + i));

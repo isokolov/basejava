@@ -24,12 +24,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeExists(Object searchKey) {
-        return (Integer) searchKey != null;
-    }
-
-
-    @Override
     protected boolean resumeNotExists(Object searchKey) {
         return searchKey == null;
     }

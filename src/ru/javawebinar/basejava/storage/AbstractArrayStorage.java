@@ -57,12 +57,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage/*implements S
         size--;
     }
 
-
-    @Override
-    protected boolean resumeExists(Object searchKey) {
-        return (((Integer) searchKey >= 0) /*&& (searchKey != null)*/);
-    }
-
     @Override
     protected boolean resumeNotExists(Object searchKey) {
         return !((Integer) searchKey >= 0);

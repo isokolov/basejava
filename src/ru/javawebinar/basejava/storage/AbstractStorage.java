@@ -6,9 +6,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Integer getSearchKey(String searchKey);
-
-    protected abstract boolean resumeExists(Object searchKey);
+    protected abstract Object getSearchKey(String searchKey);
 
     protected abstract boolean resumeNotExists(Object searchKey);
 
@@ -22,7 +20,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-        Integer index = getSearchKey(r.getUuid());
+        Object index = getSearchKey(r.getUuid());
         if (resumeNotExists(index)) {
             throw new NotExistStorageException(r.getUuid());
         }
@@ -31,8 +29,8 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        Integer index = getSearchKey(r.getUuid());
-        if (resumeExists(index)) {
+        Object index = getSearchKey(r.getUuid());
+        if (!resumeNotExists(index)) {
             throw new ExistStorageException(r.getUuid());
         }
         toSave(r, index);
@@ -40,7 +38,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        Integer index = getSearchKey(uuid);
+        Object index = getSearchKey(uuid);
         if (resumeNotExists(index)) {
             throw new NotExistStorageException(uuid);
         }
@@ -49,9 +47,8 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        Integer index = getSearchKey(uuid);
+        Object index = getSearchKey(uuid);
         if (resumeNotExists(index)) {
-            //if (!(index >= 0)) {
             throw new NotExistStorageException(uuid);
         }
         toDelete(index);
