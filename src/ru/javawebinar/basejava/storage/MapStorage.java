@@ -11,17 +11,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected String getSearchKey(String searchKey) {
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            if (entry.getValue().getUuid().equals(searchKey)) {
-                return entry.getKey();
-            }
-        }
-        return null;
+        return searchKey;
     }
 
     @Override
     protected boolean resumeNotExists(Object searchKey) {
-        return searchKey == null;
+        return !map.containsKey((String) searchKey);
     }
 
     @Override
@@ -31,11 +26,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume toGet(Object searchKey) {
-        String index = getSearchKey(searchKey.toString());
-        if (index != null) {
-            return map.get(index);
-        }
-        return null;
+        return map.get(searchKey);
     }
 
     @Override

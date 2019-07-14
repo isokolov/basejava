@@ -9,10 +9,6 @@ public class ListStorage extends AbstractStorage {
 
     private List<Resume> resumes = new ArrayList<>();
 
-    public void ListStorage(List<Resume> resumes) {
-        this.resumes = resumes;
-    }
-
     @Override
     public Integer getSearchKey(String searchKey) {
         for (int i = 0; i < resumes.size(); i++) {
@@ -30,11 +26,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void toSave(Resume resume, Object searchKey) {
-        if (searchKey != null) {
-            resumes.add((Integer) searchKey, resume);
-        } else {
-            resumes.add(resumes.size(), resume);
-        }
+        resumes.add(resume);
     }
 
     @Override
