@@ -2,9 +2,6 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Array based storage for Resumes
  */
@@ -16,8 +13,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertElement(Resume r, int index) {
-        storage[size] = r;
+    protected void insertElement(Resume resume, int index) {
+        storage[size] = resume;
     }
 
     @Override
@@ -30,11 +27,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        Resume[] resumes = getAll();
-        Arrays.sort(resumes, NAME_COMPARATOR);
-        List<Resume> list = Arrays.asList(resumes);
-        return list;
-    }
 }
