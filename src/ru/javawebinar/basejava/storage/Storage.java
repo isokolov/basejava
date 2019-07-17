@@ -4,7 +4,6 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.List;
 
-// TODO refactoring
 public interface Storage {
 
     void clear();
@@ -17,7 +16,6 @@ public interface Storage {
 
     void delete(String uuid);
 
-//  return list, sorted by name
     List<Resume> getAllSorted();
 
     int size();
