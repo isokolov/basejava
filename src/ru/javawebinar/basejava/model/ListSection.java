@@ -1,23 +1,19 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ListSection extends Section {
 
-    private List<String> infos = new ArrayList<>();
+    private final List<String> infos;
 
-    public ListSection(SectionType listSection, List<String> infos) {
-        super(listSection);
+    public ListSection(List<String> infos) {
+        Objects.requireNonNull(infos, "Infos can't be null");
         this.infos = infos;
     }
 
     public List<String> getInfos() {
         return infos;
-    }
-
-    public void setInfos(List<String> infos) {
-        this.infos = infos;
     }
 
     @Override
@@ -38,7 +34,6 @@ public class ListSection extends Section {
     @Override
     public String toString() {
         return "ListSection{" +
-                "listSection=" + getSectionType() +
                 ", infos=" + infos +
                 '}';
     }

@@ -6,8 +6,8 @@ public class TextSection extends Section {
 
     private String text;
 
-    public TextSection(SectionType sectionType, String text) {
-        super(sectionType);
+    public TextSection(String text) {
+        Objects.requireNonNull(text, "Text can't be empty");
         this.text = text;
     }
 
@@ -22,25 +22,21 @@ public class TextSection extends Section {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TextSection)) return false;
 
         TextSection that = (TextSection) o;
 
-        if (getSectionType() != that.getSectionType()) return false;
-        return text != null ? text.equals(that.text) : that.text == null;
+        return text.equals(that.text);
     }
 
     @Override
     public int hashCode() {
-        int result = getSectionType().hashCode();
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        return result;
+        return text.hashCode();
     }
 
     @Override
     public String toString() {
         return "TextSection{" +
-                "sectionType=" + getSectionType() +
                 ", text='" + text + '\'' +
                 '}';
     }
