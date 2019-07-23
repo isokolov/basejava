@@ -18,9 +18,9 @@ public class ResumeTestData {
         resume.getContacts().put(ContactType.PHONE, "+7(921) 855-0482");
 
         /* Text Sections */
-        Section objective = new TextSection(
+        AbstractSection objective = new TextSection(
                 "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
-        Section personalQualities = new TextSection(
+       AbstractSection personalQualities = new TextSection(
                 "Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
         resume.getSections().put(SectionType.OBJECTIVE, objective);
         resume.getSections().put(SectionType.PERSONAL, personalQualities);
@@ -34,13 +34,13 @@ public class ResumeTestData {
         achievementInfos.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike.\n" +
                 "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.\n");
 
-        Section achievements = new ListSection(achievementInfos);
+       AbstractSection achievements = new ListSection(achievementInfos);
 
         List<String> qualificationInfos = new ArrayList<>();
         qualificationInfos.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
         qualificationInfos.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
         qualificationInfos.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle");
-        Section qualifications = new ListSection(qualificationInfos);
+       AbstractSection qualifications = new ListSection(qualificationInfos);
         resume.getSections().put(SectionType.ACHIEVEMENT, achievements);
         resume.getSections().put(SectionType.QUALIFICATIONS, qualifications);
 
@@ -56,7 +56,7 @@ public class ResumeTestData {
         studyPlaces.add(new Organization("Siemens AG",
                 "3 месяца обучения мобильным IN сетям (Берлин)", "",
                 YearMonth.of(2005, Month.JANUARY), YearMonth.of(2005, Month.APRIL)));
-        Section education = new OrganizationSection(studyPlaces);
+       AbstractSection education = new OrganizationSection(studyPlaces);
         resume.getSections().put(SectionType.EDUCATION, education);
 
         /* Job experience */
@@ -69,7 +69,7 @@ public class ResumeTestData {
                         " Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis).\nДвухфакторная аутентификация, авторизация " +
                         "по OAuth1, OAuth2, JWT SSO.", "Старший разработчик (backend)",
                 YearMonth.of(2013, Month.OCTOBER), YearMonth.now()));
-        Section jobExperience = new OrganizationSection(jobPlaces);
+       AbstractSection jobExperience = new OrganizationSection(jobPlaces);
         resume.getSections().put(SectionType.EXPERIENCE, jobExperience);
 
 
@@ -78,20 +78,20 @@ public class ResumeTestData {
             System.out.println("\n" + entry.getKey() + " : " + entry.getValue());
         }
 
-        for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
             if (entry.getKey() == SectionType.PERSONAL || entry.getKey() == SectionType.OBJECTIVE) {
                 System.out.println(entry.getKey() + " : " + ((TextSection) entry.getValue()).getText());
             }
             if (entry.getKey() == SectionType.QUALIFICATIONS || entry.getKey() == SectionType.ACHIEVEMENT) {
                 System.out.println("\n" + entry.getKey());
-                Section section = (ListSection) entry.getValue();
+               AbstractSection section = (ListSection) entry.getValue();
                 for (String str : ((ListSection) section).getInfos()) {
                     System.out.println(str);
                 }
             }
             if (entry.getKey() == SectionType.EXPERIENCE || entry.getKey() == SectionType.EDUCATION) {
                 System.out.println("\n" + entry.getKey() + "\n");
-                Section section = (OrganizationSection) entry.getValue();
+               AbstractSection section = (OrganizationSection) entry.getValue();
                 for (Organization organization : ((OrganizationSection) section).getOrganisations()) {
                     System.out.println(organization.getTitle() + " " + organization.getPosition() + " " +
                             organization.getDescription() + " " +
