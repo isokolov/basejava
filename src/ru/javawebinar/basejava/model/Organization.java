@@ -6,10 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * gkislin
- * 19.07.2016
- */
+
 public class Organization {
 
     private final Link homePage;
@@ -28,6 +25,32 @@ public class Organization {
 
     public Link getHomePage() {
         return homePage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organization)) return false;
+
+        Organization that = (Organization) o;
+
+        if (!homePage.equals(that.homePage)) return false;
+        return positionEntries.equals(that.positionEntries);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = homePage.hashCode();
+        result = 31 * result + positionEntries.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "homePage=" + homePage +
+                ", positionEntries=" + positionEntries +
+                '}';
     }
 
     public static class PositionEntry {
@@ -61,6 +84,28 @@ public class Organization {
 
         public String getDescription() {
             return description;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof PositionEntry)) return false;
+
+            PositionEntry that = (PositionEntry) o;
+
+            if (!startDate.equals(that.startDate)) return false;
+            if (!endDate.equals(that.endDate)) return false;
+            if (!title.equals(that.title)) return false;
+            return description.equals(that.description);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = startDate.hashCode();
+            result = 31 * result + endDate.hashCode();
+            result = 31 * result + title.hashCode();
+            result = 31 * result + description.hashCode();
+            return result;
         }
     }
 
