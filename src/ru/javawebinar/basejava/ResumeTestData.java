@@ -48,19 +48,19 @@ public class ResumeTestData {
         /* Education */
         List<Organization> studyPlaces = new ArrayList<>();
         Organization org1 = new Organization("Coursera", "Coursera",
-                new Organization.PositionEntry(LocalDate.of(2013, Month.MARCH, 1), LocalDate.of(2013, Month.MAY, 1),
+                new Organization.Position(LocalDate.of(2013, Month.MARCH, 1), LocalDate.of(2013, Month.MAY, 1),
                         "\"Functional Programming Principles in Scala\" by Martin Odersky", ""));
         studyPlaces.add(org1);
 
         Organization org2 = new Organization("Luxoft", "Luxoft",
-                new Organization.PositionEntry(LocalDate.of(2011, Month.MARCH, 1), LocalDate.of(2013, Month.APRIL, 1),
+                new Organization.Position(LocalDate.of(2011, Month.MARCH, 1), LocalDate.of(2013, Month.APRIL, 1),
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", ""));
         studyPlaces.add(org2);
 
         Organization org3 = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "",
-                new Organization.PositionEntry(LocalDate.of(1993, Month.SEPTEMBER, 1), LocalDate.of(1996, Month.JULY, 1),
+                new Organization.Position(LocalDate.of(1993, Month.SEPTEMBER, 1), LocalDate.of(1996, Month.JULY, 1),
                         "Аспирантура (программист С, С++)", ""),
-                new Organization.PositionEntry(LocalDate.of(1987, Month.SEPTEMBER, 1), LocalDate.of(1993, Month.JULY, 1),
+                new Organization.Position(LocalDate.of(1987, Month.SEPTEMBER, 1), LocalDate.of(1993, Month.JULY, 1),
                         "Инженер (программист Fortran, C", ""));
         studyPlaces.add(org3);
         Section education = new OrganizationSection(studyPlaces);
@@ -69,11 +69,11 @@ public class ResumeTestData {
         /* Job experience */
         List<Organization> jobPlaces = new ArrayList<>();
         jobPlaces.add(new Organization("Java Online Projects", "",
-                new Organization.PositionEntry(LocalDate.of(2013, Month.OCTOBER, 1), LocalDate.now(),
+                new Organization.Position(LocalDate.of(2013, Month.OCTOBER, 1), LocalDate.now(),
                         "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.")));
 
         jobPlaces.add(new Organization("Wrike",
-                "", new Organization.PositionEntry(LocalDate.of(2013, Month.OCTOBER, 1),
+                "", new Organization.Position(LocalDate.of(2013, Month.OCTOBER, 1),
                 LocalDate.of(2014, Month.OCTOBER, 1),
                 "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven," +
                 " Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis).\nДвухфакторная аутентификация, авторизация " +
@@ -102,9 +102,9 @@ public class ResumeTestData {
                 OrganizationSection section = (OrganizationSection) entry.getValue();
                 for (Organization organization : section.getOrganizations()) {
                     System.out.println(organization.getHomePage().getName());
-                    for (Organization.PositionEntry positionEntry : organization.getPositionEntries()) {
-                        System.out.println(positionEntry.getTitle() + " " + positionEntry.getDescription() + " " +
-                                positionEntry.getStartDate() + " " + positionEntry.getEndDate());
+                    for (Organization.Position position : organization.getPositionEntries()) {
+                        System.out.println(position.getTitle() + " " + position.getDescription() + " " +
+                                position.getStartDate() + " " + position.getEndDate());
                     }
                 }
 

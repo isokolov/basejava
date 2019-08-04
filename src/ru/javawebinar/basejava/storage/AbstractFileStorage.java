@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * gkislin
- * 22.07.2016
- */
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private File directory;
 
@@ -51,9 +47,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doUpdate(Resume r, File file) {
+    protected void doUpdate(Resume resume, File file) {
         try {
-            doWrite(r, file);
+            doWrite(resume, file);
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
@@ -66,10 +62,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doSave(Resume r, File file) {
+    protected void doSave(Resume resume, File file) {
         try {
             file.createNewFile();
-            doWrite(r, file);
+            doWrite(resume, file);
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
@@ -97,13 +93,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new StorageException("Directory read error", null);
         }
         for(File file: Objects.requireNonNull(directory.listFiles())) {
-            Resume resume = doGet(file);
-            resumeList.add(resume);
+            resumeList.add(doGet(file));
         }
         return resumeList;
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
+    protected abstract void doWrite(Resume resume, File file) throws IOException;
 
     protected abstract Resume readResume(File file) throws IOException;
 
