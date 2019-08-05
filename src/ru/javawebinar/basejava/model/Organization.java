@@ -45,10 +45,6 @@ public class Organization implements Serializable {
         return "Organization(" + homePage + "," + positions + ')';
     }
 
-    /**
-     * gkislin
-     * 28.07.2016
-     */
     public static class Position implements Serializable{
         private final LocalDate startDate;
         private final LocalDate endDate;
