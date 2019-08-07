@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainFile {
@@ -23,12 +22,6 @@ public class MainFile {
                 System.out.println(name);
             }
         }
-
-        try (FileInputStream fis = new FileInputStream(filePath)) {
-            System.out.println(fis.read());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         printDirectoryDeeply(dir);
     }
 
@@ -39,10 +32,11 @@ public class MainFile {
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println("File: " + file.getName());
+                    System.out.println("\tFile: " + file.getName());
                 } else if (file.isDirectory()) {
-                    System.out.println("Directory: " + file.getName());
+                    System.out.println("\nDirectory: " + file.getName());
                     printDirectoryDeeply(file);
+                    System.out.println("End of Directory: " + file.getName());
                 }
             }
         }

@@ -17,6 +17,7 @@ public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = new File("C:\\projects\\storage");
 
     protected Storage storage;
+    protected FileStrategy fileStrategy;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -63,6 +64,11 @@ public abstract class AbstractStorageTest {
         this.storage = storage;
     }
 
+    protected AbstractStorageTest(Storage storage, FileStrategy fileStrategy) {
+        this.storage = storage;
+        this.fileStrategy = fileStrategy;
+    }
+
     @Before
     public void setUp() throws Exception {
         storage.clear();
@@ -96,9 +102,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() throws Exception {
-        List<Resume> list = storage.getAllSorted();
-        assertEquals(3, list.size());
-        assertEquals(list, Arrays.asList(R1, R2, R3));
+        List<Resume> resumes = storage.getAllSorted();
+        assertEquals(3, resumes.size());
+        assertEquals(Arrays.asList(R1, R2, R3), resumes);
     }
 
     @Test
@@ -137,8 +143,8 @@ public abstract class AbstractStorageTest {
         storage.get("dummy");
     }
 
-    private void assertGet(Resume r) {
-        assertEquals(r, storage.get(r.getUuid()));
+    private void assertGet(Resume resume) {
+        assertEquals(resume, storage.get(resume.getUuid()));
     }
 
     private void assertSize(int size) {
