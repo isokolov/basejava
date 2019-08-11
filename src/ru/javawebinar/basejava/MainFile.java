@@ -22,21 +22,21 @@ public class MainFile {
                 System.out.println(name);
             }
         }
-        printDirectoryDeeply(dir);
+        printDirectoryDeeply(dir, "");
     }
 
     // TODO: make pretty output
-    public static void printDirectoryDeeply(File dir) {
+    public static void printDirectoryDeeply(File dir, String offset) {
         File[] files = dir.listFiles();
 
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println("\tFile: " + file.getName());
+                    System.out.println(offset + "File: " + file.getName());
                 } else if (file.isDirectory()) {
-                    System.out.println("\nDirectory: " + file.getName());
-                    printDirectoryDeeply(file);
-                    System.out.println("End of Directory: " + file.getName());
+                    System.out.println(offset + "Directory: " + file.getName());
+                    printDirectoryDeeply(file, offset + "  ");
+                    System.out.println(offset + "End of Directory: " + file.getName());
                 }
             }
         }
