@@ -86,32 +86,37 @@ public class ResumeTestData {
             System.out.println("\n" + entry.getKey() + " : " + entry.getValue());
         }
 
-        for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
-            if (entry.getKey() == SectionType.PERSONAL || entry.getKey() == SectionType.OBJECTIVE) {
-                System.out.println(entry.getKey() + " : " + ((TextSection) entry.getValue()).getContent());
-            }
-            if (entry.getKey() == SectionType.QUALIFICATIONS || entry.getKey() == SectionType.ACHIEVEMENT) {
-                System.out.println("\n" + entry.getKey());
-                ListSection section = (ListSection) entry.getValue();
-                for (String str : section.getItems()) {
-                    System.out.println(str);
-                }
-            }
-            if (entry.getKey() == SectionType.EXPERIENCE || entry.getKey() == SectionType.EDUCATION) {
-                System.out.println("\n" + entry.getKey() + "\n");
-                OrganizationSection section = (OrganizationSection) entry.getValue();
-                for (Organization organization : section.getOrganizations()) {
-                    System.out.println(organization.getHomePage().getName());
-                    for (Organization.Position position : organization.getPositions()) {
-                        System.out.println(position.getTitle() + " " + position.getDescription() + " " +
-                                position.getStartDate() + " " + position.getEndDate());
-                    }
-                }
 
-            }
+        System.out.println(SectionType.PERSONAL + " " + resume.getSections().get(SectionType.PERSONAL));
+        System.out.println(SectionType.OBJECTIVE + " " + resume.getSections().get(SectionType.OBJECTIVE));
+        System.out.println(SectionType.QUALIFICATIONS);
+        ListSection section1 = (ListSection) resume.getSection(SectionType.QUALIFICATIONS);
+        for (String str : section1.getItems()) {
+            System.out.println(str);
         }
+        System.out.println(SectionType.ACHIEVEMENT);
+        ListSection section2 = (ListSection) resume.getSection(SectionType.ACHIEVEMENT);
+        for (String str : section2.getItems()) {
+            System.out.println(str);
+        }
+        System.out.println(SectionType.EXPERIENCE);
+        OrganizationSection section3 = (OrganizationSection) resume.getSection(SectionType.EXPERIENCE);
+        readOrganization(section3);
+        System.out.println(SectionType.EDUCATION);
+        OrganizationSection section4 = (OrganizationSection) resume.getSection(SectionType.EDUCATION);
+        readOrganization(section4);
 
         return resume;
+    }
+
+    private static void readOrganization(OrganizationSection section) {
+        for (Organization organization : section.getOrganizations()) {
+            System.out.println(organization.getHomePage().getName());
+            for (Organization.Position position : organization.getPositions()) {
+                System.out.println(position.getTitle() + " " + position.getDescription() + " " +
+                        position.getStartDate() + " " + position.getEndDate());
+            }
+        }
     }
 
 }

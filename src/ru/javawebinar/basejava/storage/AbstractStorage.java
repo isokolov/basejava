@@ -55,6 +55,14 @@ public abstract class AbstractStorage<SK> implements Storage {
         return doGet(searchKey);
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        LOG.info("getAllSorted");
+        List<Resume> resumes = doCopyAll();
+        Collections.sort(resumes);
+        return resumes;
+    }
+
     private SK getExistedSearchKey(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
@@ -73,11 +81,5 @@ public abstract class AbstractStorage<SK> implements Storage {
         return searchKey;
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        LOG.info("getAllSorted");
-        List<Resume> resumes = doCopyAll();
-        Collections.sort(resumes);
-        return resumes;
-    }
+
 }
