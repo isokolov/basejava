@@ -58,6 +58,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
+    @Override
     public Resume doGet(Integer index) {
         return storage[index];
     }
