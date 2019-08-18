@@ -9,11 +9,11 @@ import java.util.Map;
 public class DataStreamSerializer implements StreamSerializer {
 
     @Override
-    public void doWrite(Resume r, OutputStream os) throws IOException {
+    public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
-            dos.writeUTF(r.getUuid());
-            dos.writeUTF(r.getFullName());
-            Map<ContactType, String> contacts = r.getContacts();
+            dos.writeUTF(resume.getUuid());
+            dos.writeUTF(resume.getFullName());
+            Map<ContactType, String> contacts = resume.getContacts();
             dos.writeInt(contacts.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
