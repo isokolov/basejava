@@ -1,11 +1,13 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.sql.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -42,7 +44,14 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
+            ps.setString(1, r.getFullName());
+            ps.setString(2, r.getUuid());
+            ps.execute();
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
@@ -53,23 +62,56 @@ public class SqlStorage implements Storage {
             ps.setString(2, r.getFullName());
             ps.execute();
         } catch (SQLException e) {
-            throw new StorageException(e);
+            throw new ExistStorageException(r.getUuid());
         }
+
 
     }
 
     @Override
     public void delete(String uuid) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("DELETE FROM resume WHERE uuid = ?")) {
+            ps.setString(1, uuid);
+            if (ps.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        return null;
+        List<Resume> resumes = new ArrayList<>();
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name")) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                resumes.add(new Resume(rs.getString(1), rs.getString(2)));
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
+
+        return resumes;
     }
 
     @Override
     public int size() {
-        return 0;
+        int count = 0;
+        String SQL = "SELECT COUNT(*) FROM resume";
+        try (Connection conn = connectionFactory.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(SQL)) {
+            rs.next();
+            count = rs.getInt(1);
+
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
+
+        return count;
     }
 }
