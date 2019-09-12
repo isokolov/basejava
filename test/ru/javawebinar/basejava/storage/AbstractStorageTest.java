@@ -9,7 +9,9 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,26 +22,23 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
 
     private static final Resume R1;
     private static final Resume R2;
     private static final Resume R3;
     private static final Resume R4;
 
+
     static {
         R1 = new Resume(UUID_1, "Name1");
         R2 = new Resume(UUID_2, "Name2");
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
-        /*R1 = ResumeTestData.getResume1(UUID_1, "Name1");
-        R2 = ResumeTestData.getResume2(UUID_2, "Name2");
-        R3 = ResumeTestData.getResume3(UUID_3, "Name3");
-        R4 = ResumeTestData.getResume3(UUID_4, "Name4");*/
-        }
+    }
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -80,7 +79,9 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() throws Exception {
         List<Resume> list = storage.getAllSorted();
         assertEquals(3, list.size());
-        assertEquals(Arrays.asList(R1, R2, R3), list);
+        List<Resume> sortedResumes = Arrays.asList(R1, R2, R3);
+        Collections.sort(sortedResumes);
+        assertEquals(list, sortedResumes);
     }
 
     @Test
