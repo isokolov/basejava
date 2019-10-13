@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.sql;
 
 import ru.javawebinar.basejava.exception.StorageException;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -30,13 +31,18 @@ public class SqlHelper {
         try (Connection conn = connectionFactory.getConnection()) {
             try {
                 conn.setAutoCommit(false);
-                T res = executor.execute(conn);
+                T res = null;
+                try {
+                    res = executor.execute(conn);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 conn.commit();
                 return res;
             } catch (SQLException e) {
                 conn.rollback();
                 throw ExceptionUtil.convertException(e);
-            }
+            } //catch (IOException e) {}
         } catch (SQLException e) {
             throw new StorageException(e);
         }
