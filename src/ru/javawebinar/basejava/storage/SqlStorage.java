@@ -227,9 +227,7 @@ public class SqlStorage implements Storage {
                 case QUALIFICATIONS:
                     List<String> items = new ArrayList<>();
                     BufferedReader reader = new BufferedReader(new StringReader(value));
-                    while(!reader.ready()) {
-                        items.add(reader.readLine());
-                    }
+                    reader.lines().forEach(items::add);
                     resume.addSection(type, new ListSection(items));
                     break;
             }

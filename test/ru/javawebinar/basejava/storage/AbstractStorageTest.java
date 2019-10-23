@@ -35,19 +35,9 @@ public abstract class AbstractStorageTest {
 
 
     static {
-        /*R1 = new Resume(UUID_1, "Name1");
-        R2 = new Resume(UUID_2, "Name2");
-        R3 = new Resume(UUID_3, "Name3");
-        R4 = new Resume(UUID_4, "Name4");
-
-        R1.addContact(ContactType.MAIL, "mail1@ya.ru");
-        R1.addContact(ContactType.PHONE, "11111");
-        R4.addContact(ContactType.PHONE, "44444");
-        R4.addContact(ContactType.SKYPE, "Skype");*/
-        R1 = ResumeTestData.getResume2(UUID_1, "Name1");
+        R1 = ResumeTestData.getResume1(UUID_1, "Name1");
         R2 = ResumeTestData.getResume1(UUID_2, "Name2");
         R3 = ResumeTestData.getResume2(UUID_3, "Name3");
-        //R4 = ResumeTestData.getResume1(UUID_4, "Name4");
         R4 = new Resume(UUID_4, "Name4");
     }
 
