@@ -4,14 +4,8 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.sql.SqlHelper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -184,27 +178,21 @@ public class SqlStorage implements Storage {
     }
 
     private static String listSectionContent(ListSection listSection) {
-        StringBuilder stringBuilder = new StringBuilder("");
-        for(String string: listSection.getItems()) {
-            stringBuilder.append(string).append("\n");
+        return String.join("\n", listSection.getItems());
+    }
+
+    private void deleteContacts(Connection conn, Resume resume) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE  FROM contact WHERE resume_uuid=?")) {
+            ps.setString(1, resume.getUuid());
+            ps.execute();
         }
-        return stringBuilder.toString();
     }
 
-    private void deleteContacts(Connection conn, Resume resume) {
-        sqlHelper.execute("DELETE  FROM contact WHERE resume_uuid=?", ps -> {
+    private void deleteSections(Connection conn, Resume resume) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE  FROM section WHERE resume_uuid=?")) {
             ps.setString(1, resume.getUuid());
             ps.execute();
-            return null;
-        });
-    }
-
-    private void deleteSections(Connection conn, Resume resume) {
-        sqlHelper.execute("DELETE  FROM section WHERE resume_uuid=?", ps -> {
-            ps.setString(1, resume.getUuid());
-            ps.execute();
-            return null;
-        });
+        }
     }
 
     private void addContact(ResultSet rs, Resume resume) throws SQLException {
@@ -214,7 +202,7 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void addSection(ResultSet rs, Resume resume) throws SQLException, IOException {
+    private void addSection(ResultSet rs, Resume resume) throws SQLException {
         String value = rs.getString("content");
         if (value != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
@@ -225,9 +213,7 @@ public class SqlStorage implements Storage {
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATIONS:
-                    List<String> items = new ArrayList<>();
-                    BufferedReader reader = new BufferedReader(new StringReader(value));
-                    reader.lines().forEach(items::add);
+                    List<String> items = new ArrayList<>(Arrays.asList(value.split("\n")));
                     resume.addSection(type, new ListSection(items));
                     break;
             }
