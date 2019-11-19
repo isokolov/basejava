@@ -13,12 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static ru.javawebinar.basejava.util.DateUtil.NOW;
 import static ru.javawebinar.basejava.util.DateUtil.of;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public static final Organization EMPTY = new Organization("", "", Position.EMPTY);
 
     private Link homePage;
     private List<Position> positions = new ArrayList<>();
@@ -64,6 +65,9 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
+
+        public static final Position EMPTY = new Position();
+
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -75,7 +79,7 @@ public class Organization implements Serializable {
         }
 
         public Position(int startYear, Month startMonth, String title, String description) {
-            this(of(startYear, startMonth), NOW, title, description);
+            this(of(startYear, startMonth), null, title, description);
         }
 
         public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
@@ -84,7 +88,7 @@ public class Organization implements Serializable {
 
         public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
-            Objects.requireNonNull(endDate, "endDate must not be null");
+            //Objects.requireNonNull(endDate, "endDate must not be null");
             Objects.requireNonNull(title, "title must not be null");
             this.startDate = startDate;
             this.endDate = endDate;
