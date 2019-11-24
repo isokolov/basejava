@@ -47,43 +47,50 @@
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
                                varStatus="counter">
+                        <c:if test="${empty org.homePage.name}">
+                            <p style="color: red">Add new organisation</p>
+                        </c:if>
                         <dl>
                             <dt>Название учереждения:</dt>
-                            <dd><input type="text" name='${type}' size=100 value="${org.homePage.name}" required></dd>
+                            <dd><input type="text" name='${type}' size=100 value="${org.homePage.name}"></dd>
                         </dl>
                         <dl>
                             <dt>Сайт учереждения:</dt>
-                            <dd><input type="text" name='${type}url' size=100 value="${org.homePage.url}" required></dd>
+                            <dd><input type="text" name='${type}url' size=100 value="${org.homePage.url}"></dd>
                             </dd>
                         </dl>
                         <br>
                         <div style="margin-left: 30px">
                             <c:forEach var="pos" items="${org.positions}">
                                 <jsp:useBean id="pos" type="ru.javawebinar.basejava.model.Organization.Position"/>
+                                <c:if test="${empty pos.title && not empty org.homePage.name}">
+                                    <p style="color: red">Add new position</p>
+                                </c:if>
                                 <dl>
                                     <dt>Начальная дата:</dt>
                                     <dd>
                                         <input type="text" name="${type}${counter.index}startDate" size=10
-                                               value="<%=DateUtil.format(pos.getStartDate())%>" placeholder="MM/yyyy" required>
+                                               value="<%=DateUtil.format(pos.getStartDate())%>" placeholder="MM/yyyy">
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>Конечная дата:</dt>
                                     <dd>
                                         <input type="text" name="${type}${counter.index}endDate" size=10
-                                               value="<%=DateUtil.format(pos.getEndDate())%>" placeholder="MM/yyyy" required>
+                                               value="<%=DateUtil.format(pos.getEndDate())%>" placeholder="MM/yyyy">
                                 </dl>
                                 <dl>
                                     <dt>Должность:</dt>
                                     <dd><input type="text" name='${type}${counter.index}title' size=75
-                                               value="${pos.title}" required>
+                                               value="${pos.title}">
                                 </dl>
                                 <dl>
                                     <dt>Описание:</dt>
                                     <dd><textarea name="${type}${counter.index}description" rows=5
-                                                  cols=75 required>${pos.description}</textarea></dd>
+                                                  cols=75>${pos.description}</textarea></dd>
                                 </dl>
                             </c:forEach>
+                            <!--/c:if-->
                         </div>
                     </c:forEach>
                 </c:when>

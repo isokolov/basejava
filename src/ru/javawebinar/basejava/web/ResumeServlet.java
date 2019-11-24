@@ -136,14 +136,13 @@ public class ResumeServlet extends HttpServlet {
                         case EDUCATION:
                             OrganizationSection orgSection = (OrganizationSection) section;
                             List<Organization> emptyFirstOrganizations = new ArrayList<>();
-                            if (orgSection == null) {
-                                emptyFirstOrganizations.add(Organization.EMPTY);
-                            }
-
+                            emptyFirstOrganizations.add(Organization.EMPTY);
                             if (orgSection != null) {
                                 for (Organization org : orgSection.getOrganizations()) {
                                     List<Organization.Position> emptyFirstPositions = new ArrayList<>();
+
                                     emptyFirstPositions.addAll(org.getPositions());
+                                    emptyFirstPositions.add(Organization.Position.EMPTY);
                                     emptyFirstOrganizations.add(new Organization(org.getHomePage(), emptyFirstPositions));
                                 }
                             }

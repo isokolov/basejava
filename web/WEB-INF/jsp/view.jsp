@@ -21,54 +21,33 @@
             <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
     </p>
-    <table cellpadding="2">
         <c:forEach var="sectionEntry" items="${resume.sections}">
             <jsp:useBean id="sectionEntry"
                          type="java.util.Map.Entry<ru.javawebinar.basejava.model.SectionType, ru.javawebinar.basejava.model.Section>"/>
             <c:set var="type" value="${sectionEntry.key}"/>
             <c:set var="section" value="${sectionEntry.value}"/>
             <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
-            <tr>
-                <td colspan="2"><h2><a name="type.name">${type.title}</a></h2></td>
-            </tr>
+               <h2><a name="type.name">${type.title}</a></h2>
             <c:choose>
-                <c:when test="${type=='OBJECTIVE'}">
-                    <tr>
-                        <td colspan="2">
+                <c:when test="${type=='OBJECTIVE' || type=='PERSONAL'}">
                             <%=section%>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:when test="${type=='PERSONAL'}">
-                    <tr>
-                        <td colspan="2">
-                            <%=section%>
-                        </td>
-                    </tr>
                 </c:when>
                 <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
-                    <tr>
-                        <td colspan="2">
                             <%=String.join("</br>", ((ListSection) section).getItems())%>
-                        </td>
-                    </tr>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
-                    <tr><td>
-
-
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
-
                         <div style="margin-left: 30px">
+                            <h3>Название учереждения:</h3>
+                                ${org.homePage.name}
+                            <h3>Сайт учереждения:</h3>
+                                ${org.homePage.url}
 
                             <c:forEach var="position" items="${org.positions}">
-                                <c:if test="${not empty org.positions}">
                                 <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Organization.Position"/>
-                                <h3>Название учереждения:</h3>
-                                ${org.homePage.name}
-                                <h3>Сайт учереждения:</h3>
-                                ${org.homePage.url}
-                                <dl>
+
+                            </br>
+                            <dl>
                                     <dt>Начальная дата:</dt>
                                     <dd>
                                         <%=position.getStartDate()%>
@@ -86,17 +65,14 @@
                                 <dl>
                                     <dt>Описание:</dt>
                                     <dd>${position.description}</dd>
-                                </dl>
-                                </c:if>
+                                </dl></br>
                             </c:forEach>
-                            </hr>
+                            <hr>
                         </div>
-                        </td></tr>
                     </c:forEach>
                 </c:when>
             </c:choose>
         </c:forEach>
-    </table>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
